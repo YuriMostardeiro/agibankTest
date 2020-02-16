@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 public class FileService {
 
 	private final Logger logger = LoggerFactory.getLogger(FileService.class);
-	private final OutputFile outputFile = new OutputFile();
 	private final CustomerService customerService = new CustomerService();
 	private final SalesmanService salesmanService = new SalesmanService();
 	private final SaleService saleService = new SaleService();
 
-	public void createOutputFile(List<String> listFormatted) {
+	public OutputFile fillOutputFile(List<String> listFormatted) {
 
+		OutputFile outputFile = new OutputFile();
 		for (String line : listFormatted) {
 
 			switch (line.substring(0, 3)) {
@@ -40,6 +40,10 @@ public class FileService {
 		outputFile.setMostExpensiveSale(saleService.sale.getIdOfTheMostExpensiveSale());
 		outputFile.setWorstSalesman(saleService.sale.getWorstSalesmanEver());
 
+		return outputFile;
+	}
+
+	public void createOutputFile(OutputFile outputFile){
 		if (!FileUtil.createOutputFile(outputFile)) {
 			this.logger.error("Failed to generate output file");
 		}

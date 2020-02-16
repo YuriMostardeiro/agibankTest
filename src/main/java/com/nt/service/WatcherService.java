@@ -55,7 +55,7 @@ public class WatcherService {
                     }
                     buffered.close();
 
-                    fileService.createOutputFile(listFileRow);
+                    fileService.createOutputFile(fileService.fillOutputFile(listFileRow));
                     this.logger.info("OutputFile Updated");
                 }
                 boolean valid = key.reset();

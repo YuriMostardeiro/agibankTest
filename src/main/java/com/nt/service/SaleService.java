@@ -21,9 +21,18 @@ public class SaleService extends BaseService {
             return;
         }
 
+        double salesprice = 0;
+        try{
+            salesprice = sale.getSalesTotalPrice(data.get(2));
+        }
+        catch(Exception e){
+            logger.error("Error when try to get sale total price.", e);
+            return;
+        }
+
         sale.setCode(data.get(0));
         sale.setSaleId(data.get(1));
-        sale.setSalePrice(sale.getSalesTotalPrice(data.get(2)));
+        sale.setSalePrice(salesprice);
         sale.setSalesmanName(data.get(3));
 
         sale.getSalesList().add(new Sale(sale.getCode(), sale.getSaleId(), sale.getSalePrice(), sale.getSalesmanName()));
