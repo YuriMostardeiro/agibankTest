@@ -1,7 +1,6 @@
 package com.nt;
 
 import com.nt.service.CustomerService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 

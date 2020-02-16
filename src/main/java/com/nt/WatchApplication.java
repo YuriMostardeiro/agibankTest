@@ -1,14 +1,13 @@
 package com.nt;
 
-import com.nt.service.FileService;
-
+import com.nt.service.WatcherService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class WatchApplication {
 
 	public static void main(String[] args) {
-		FileService fileService = new FileService();
-		fileService.watchFile();
+		WatcherService watcherService = new WatcherService();
+		watcherService.watchFile();
 	}
 }
