@@ -34,10 +34,6 @@ public class FileUtil {
             return folderIn;
     }
 
-    public static String getFolderOut() {
-        return folderOut;
-    }
-
     public static boolean createOutputFile(OutputFile outputFile) {
 
         FileUtil.createDirectory(folderOut);

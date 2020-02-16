@@ -82,18 +82,16 @@ public class FileService {
 		}
 	}
 
-	private void fillOutputFile(List<String> listFormated) {
+	private void fillOutputFile(List<String> listFormatted) {
 
-		CustomerService customerService = new CustomerService();
-		Customer customer = new Customer();
-
-		for (String line : listFormated) {
+		for (String line : listFormatted) {
 
 			switch (line.substring(0, 3)) {
 				case "001":
+					SalesmanService.getSalesmanData(line);
 					break;
 				case "002":
-					customer.getCustomerList().add(customerService.getCustomerData(line));
+					CustomerService.getCustomerData(line);
 					break;
 				case "003":
 					break;
@@ -102,6 +100,7 @@ public class FileService {
 			}
 		}
 
-		outputFile.setTotalOfCustomer(customer.getCustomerList().size());
+		outputFile.setTotalOfCustomer(CustomerService.customer.getCustomerList().size());
+		outputFile.setTotalOfSalesman(SalesmanService.salesman.getSalesmanList().size());
 	}
 }

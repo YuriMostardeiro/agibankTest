@@ -11,19 +11,8 @@ public class Customer {
 	private String businessArea;
 	private List<Customer> customerList = new ArrayList<Customer>();
 
-	public Customer(String code, String companyNumber, String name, String businessarea) {
-		this.code = code;
-		this.companyNumber = companyNumber;
-		this.name = name;
-		this.businessArea = businessarea;
-	}
-
 	public Customer() {
 		
-	}
-
-	public String getAmountOfClients() {
-		return code;
 	}
 
 	public String getCode() {

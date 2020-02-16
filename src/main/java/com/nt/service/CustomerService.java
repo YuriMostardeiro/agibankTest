@@ -8,22 +8,23 @@ import org.slf4j.Logger;
 
 public class CustomerService extends BaseService {
 
-    private final Logger logger = LoggerFactory.getLogger(FileService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileService.class);
+    public static final Customer customer = new Customer();
 
-    public Customer getCustomerData(String line) {
-        List<String> data = this.getDataFromLine(line);
+    static void getCustomerData(String line) {
+        List<String> data = getDataFromLine(line);
 
         if (data.isEmpty()) {
-            this.logger.error("Error when try to split line.");
-            return null;
+            logger.error("Error when try to split line for customer.");
+            return;
         }
 
-        Customer customer = new Customer(data.get(0)
-                                        ,data.get(1)
-                                        ,data.get(2)
-                                        ,data.get(3));
+        customer.setCode(data.get(0));
+        customer.setCompanyNumber(data.get(1));
+        customer.setName(data.get(2));
+        customer.setBusinessArea(data.get(3));
 
-        this.logger.info(customer.getResult());
-        return customer;
+        customer.getCustomerList().add(customer);
+        logger.info(customer.getResult());
     }
 }

@@ -3,42 +3,23 @@ package com.nt.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
-
 public class Salesman {
+	private String code;
 	private String cpf;
 	private String name;
 	private double salary;
-	private List<Salesman> salesmans = new ArrayList<Salesman>();
-    
-	public Salesman(String cpf, String name, double salary) {
-		this.cpf = cpf;
-		this.name = name;
-		this.salary = salary;
-	}
+	private List<Salesman> salesmanList = new ArrayList<Salesman>();
 
 	public Salesman() {
 		
 	}
-	
-	public void getSalesmansFromList(List<String> listFormated) {
-		for (String salesman : listFormated) {
-			if (salesman.startsWith("001;")) {
-				String aux[] = salesman.split(";");
-				salesmans.add(new Salesman(aux[1], aux[2], Double.parseDouble(aux[3])));
-			}
-		}
+
+	public String getCode() {
+		return code;
 	}
 
-	public int amountOfSalesman() {
-		return salesmans.size();
-	}
-
-	public List<Salesman> getSalesmans() {
-		return salesmans;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getCpf() {
@@ -65,7 +46,16 @@ public class Salesman {
 		this.salary = salary;
 	}
 
-	public void setSalesmans(List<Salesman> salesmans) {
-		this.salesmans = salesmans;
+	public List<Salesman> getSalesmanList() {
+		return salesmanList;
+	}
+
+	public String getResult() {
+		return "Customer{" +
+				"code='" + code + '\'' +
+				", cpf='" + cpf + '\'' +
+				", name='" + name + '\'' +
+				", salary='" + salary + '\'' +
+				'}';
 	}
 }

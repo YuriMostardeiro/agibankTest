@@ -9,8 +9,13 @@ public class BaseService {
 
     }
 
-    public List<String> getDataFromLine(String line) {
+    public static List<String> getDataFromLine(String line) {
                 List<String> result = Arrays.asList(line.split("[^\\p{ASCII}]"));
+
+                if (result.size() != 4){
+                    return null;
+                }
+
                 return result;
     }
 }
