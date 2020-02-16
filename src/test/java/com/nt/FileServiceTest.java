@@ -63,7 +63,7 @@ public class FileServiceTest {
         assertAll(
                 () -> assertEquals(outputFile.getTotalOfClient(), 2),
                 () -> assertEquals(outputFile.getTotalOfSalesman(), 2),
-                () -> assertEquals(outputFile.getMostExpensiveSale(), "8"),
+                () -> assertEquals(outputFile.getMostExpensiveSale(), "08"),
                 () -> assertEquals(outputFile.getWorstSalesman(), "Renato")
         );
     }
