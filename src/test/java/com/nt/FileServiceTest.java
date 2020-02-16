@@ -28,11 +28,10 @@ public class FileServiceTest {
 		sale = new Sale();
 	}*/
 
-	@Test
+	/*@Test
 	public void salesmanTest() {
 		sale = new Sale();
 		List<String> fileSimulation = new ArrayList<String>();
-		fileSimulation.add(FileUtil.replaceAscIIDelimiter(sampleStr1));
 
 		salesman.getSalesmansFromList(fileSimulation);
 		
@@ -45,7 +44,6 @@ public class FileServiceTest {
 	public void customerTest() {
 		sale = new Sale();
 		List<String> fileSimulation = new ArrayList<String>();
-		fileSimulation.add(FileUtil.replaceAscIIDelimiter(sampleStr2));
 
 		customer.getCustomersFromList(fileSimulation);
 		
@@ -64,5 +62,5 @@ public class FileServiceTest {
 		
 		assertEquals(sale.getSales().get(0).getSaleId() , "10");
 		assertEquals(sale.getSales().get(0).getSalesmanName(), "Diego");
-	}
+	}*/
 }

@@ -1,9 +1,7 @@
 package com.nt.service;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -15,13 +13,8 @@ import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import com.nt.domain.Customer;
 import com.nt.domain.OutputFile;
-import com.nt.domain.Sale;
-import com.nt.domain.Salesman;
 import com.nt.util.FileUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
