@@ -94,6 +94,7 @@ public class FileService {
 					CustomerService.getCustomerData(line);
 					break;
 				case "003":
+					SaleService.getSaleData(line);
 					break;
 				default:
 					break;
@@ -102,5 +103,7 @@ public class FileService {
 
 		outputFile.setTotalOfCustomer(CustomerService.customer.getCustomerList().size());
 		outputFile.setTotalOfSalesman(SalesmanService.salesman.getSalesmanList().size());
+		outputFile.setMostExpensiveSale(SaleService.sale.getIdOfTheMostExpensiveSale());
+		outputFile.setWorstSalesman(SaleService.sale.getWorstSalesmanEver());
 	}
 }

@@ -6,39 +6,36 @@ import java.util.List;
 
 
 public class Sale {
+	private String code;
 	private String saleId;
 	private double salePrice;
-	private String salesman;
+	private String salesmanName;
 	private List<Sale> sales = new ArrayList<Sale>();
 
-	public Sale(String saleid, double saleprice, String saleman) {
+	public Sale(String code, String saleid, double saleprice, String salemanName) {
+		this.code = code;
 		this.saleId = saleid;
 		this.salePrice = saleprice;
-		this.salesman = saleman;
+		this.salesmanName = salemanName;
 	}
 
 	public Sale() {
 		
 	}
 
-	public void getSalesFromList(List<String> listFormated) {
-		for (String sale : listFormated) {
-			if (sale.startsWith("003;")) {
-				String aux[] = sale.split(";");
-				sales.add(new Sale(aux[1], getSalesPrice(aux[2]), aux[3]));
-			}
-		}
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public int amoutOfSales() {
 		return sales.size();
 	}
 
-	public List<Sale> getSales() {
-		return sales;
-	}
-
-	public double getSalesPrice(String sale) {
+	public double getSalesTotalPrice(String sale) {
 		double price = 0;
 		String splitincoma[] = sale.split(",");
 		for (int i = 0; i < splitincoma.length; i++) {
@@ -66,7 +63,7 @@ public class Sale {
 		sales.sort(Comparator.comparing(Sale::getSalePrice));
 
 		if (sales.stream().count() > 0){
-			return sales.get(0).getSalesman();
+			return sales.get(0).getSalesmanName();
 		}
 		else{
 			return "no salesman";
@@ -89,15 +86,24 @@ public class Sale {
 		this.salePrice = salePrice;
 	}
 
-	public String getSalesman() {
-		return salesman;
+	public String getSalesmanName() {
+		return salesmanName;
 	}
 
-	public void setSalesman(String salesman) {
-		this.salesman = salesman;
+	public void setSalesmanName(String salesmanName) {
+		this.salesmanName = salesmanName;
 	}
 
-	public void setSales(List<Sale> sales) {
-		this.sales = sales;
+	public List<Sale> getSalesList() {
+		return sales;
+	}
+
+	public String getResult() {
+		return "Customer{" +
+				"code='" + code + '\'' +
+				", saleId='" + saleId + '\'' +
+				", salePrice='" + salePrice + '\'' +
+				", salesman='" + salesmanName + '\'' +
+				'}';
 	}
 }

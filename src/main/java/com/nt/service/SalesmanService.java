@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import org.slf4j.Logger;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SalesmanService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(FileService.class);

@@ -63,6 +63,6 @@ public class FileServiceTest {
 		sale.getSalesFromList(fileSimulation);
 		
 		assertEquals(sale.getSales().get(0).getSaleId() , "10");
-		assertEquals(sale.getSales().get(0).getSalesman(), "Diego");
+		assertEquals(sale.getSales().get(0).getSalesmanName(), "Diego");
 	}
 }
