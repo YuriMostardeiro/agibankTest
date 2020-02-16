@@ -38,10 +38,10 @@ public class FileService {
 		try {
 			this.logger.info("Watcher Started");
 
-			FileUtil.createDirectory(FileUtil.getFolder(true));
+			FileUtil.createDirectory(FileUtil.getFolderIn());
 			watcher = FileSystems.getDefault().newWatchService();
 
-			Path directory = Paths.get(FileUtil.getFolder(true));
+			Path directory = Paths.get(FileUtil.getFolderIn());
 			directory.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
 
 			while (true) {
@@ -51,17 +51,16 @@ public class FileService {
 				if (path.toString().endsWith(".txt")) {
 					this.logger.info("ReadFile Started");
 
-
 					List<String> listFileRow = new ArrayList<>();
-					BufferedReader buffered = new BufferedReader(new FileReader(FileUtil.getFolder(true) + "\\" + path.toString()));
+					BufferedReader buffered = new BufferedReader(new FileReader(FileUtil.getFolderIn() + "\\" + path.toString()));
 					String row = "";
 					
 					while ((row = buffered.readLine()) != null) {
-						listFileRow.add(FileUtil.replaceAscIIDelimiter(row));
+						listFileRow.add(row);
 					}
 					buffered.close();
 
-					FileUtil.createOutputFile(listFileRow,null,null, null);
+					FileUtil.createOutputFile(listFileRow);
 					this.logger.info("OutputFile Updated");
 				}
 				boolean valid = key.reset();

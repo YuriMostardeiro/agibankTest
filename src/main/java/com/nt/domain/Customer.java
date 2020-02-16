@@ -3,15 +3,17 @@ package com.nt.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Customer {
-	private String cnpj;
+
+	private String code;
+	private String companyNumber;
 	private String name;
 	private String businessArea;
-	private List<com.nt.domain.Customer> customers = new ArrayList<com.nt.domain.Customer>();
+	private List<Customer> customerList = new ArrayList<Customer>();
 
-	public Customer(String cnpj, String name, String businessarea) {
-		this.cnpj = cnpj;
+	public Customer(String code, String companyNumber, String name, String businessarea) {
+		this.code = code;
+		this.companyNumber = companyNumber;
 		this.name = name;
 		this.businessArea = businessarea;
 	}
@@ -20,29 +22,24 @@ public class Customer {
 		
 	}
 
-	public void getCustomersFromList(List<String> listFormated) {
-		for (String customer : listFormated) {
-			if (customer.startsWith("002;")) {
-				String aux[] = customer.split(";");
-				customers.add(new Customer(aux[1], aux[2], aux[3]));
-			}
-		}
+	public String getAmountOfClients() {
+		return code;
 	}
 
-	public int amountOfClients() {
-		return customers.size();
+	public String getCode() {
+		return code;
 	}
 
-	public List<Customer> getCustomers() {
-		return customers;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	public String getCnpj() {
-		return cnpj;
+	public String getCompanyNumber() {
+		return companyNumber;
 	}
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+	public void setCompanyNumber(String companyNumber) {
+		this.companyNumber = companyNumber;
 	}
 
 	public String getName() {
@@ -61,7 +58,16 @@ public class Customer {
 		this.businessArea = businessArea;
 	}
 
-	public void setCustomers(List<Customer> customers) {
-		this.customers = customers;
+	public List<Customer> getCustomerList() {
+		return customerList;
+	}
+
+	public String getResult() {
+		return "Customer{" +
+				"code='" + code + '\'' +
+				", companyNumber='" + companyNumber + '\'' +
+				", name='" + name + '\'' +
+				", businessArea='" + businessArea + '\'' +
+				'}';
 	}
 }
