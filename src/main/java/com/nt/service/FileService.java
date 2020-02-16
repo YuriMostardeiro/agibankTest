@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.nt.domain.Customer;
+import com.nt.domain.OutputFile;
 import com.nt.domain.Sale;
 import com.nt.domain.Salesman;
 import com.nt.util.FileUtil;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 public class FileService {
 
 	private final Logger logger = LoggerFactory.getLogger(FileService.class);
+	private final OutputFile outputFile = new OutputFile();
 
 	@Autowired
 	private WatchService watcher;
@@ -60,7 +62,11 @@ public class FileService {
 					}
 					buffered.close();
 
-					FileUtil.createOutputFile(listFileRow);
+					fillOutputFile(listFileRow);
+					if (!FileUtil.createOutputFile(outputFile)) {
+						this.logger.error("Failed to generate output file");
+					}
+
 					this.logger.info("OutputFile Updated");
 				}
 				boolean valid = key.reset();
@@ -76,4 +82,26 @@ public class FileService {
 		}
 	}
 
+	private void fillOutputFile(List<String> listFormated) {
+
+		CustomerService customerService = new CustomerService();
+		Customer customer = new Customer();
+
+		for (String line : listFormated) {
+
+			switch (line.substring(0, 3)) {
+				case "001":
+					break;
+				case "002":
+					customer.getCustomerList().add(customerService.getCustomerData(line));
+					break;
+				case "003":
+					break;
+				default:
+					break;
+			}
+		}
+
+		outputFile.setTotalOfCustomer(customer.getCustomerList().size());
+	}
 }

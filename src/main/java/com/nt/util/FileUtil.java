@@ -1,6 +1,7 @@
 package com.nt.util;
 
 import com.nt.domain.Customer;
+import com.nt.domain.OutputFile;
 import com.nt.domain.Sale;
 import com.nt.domain.Salesman;
 import com.nt.service.CustomerService;
@@ -37,46 +38,17 @@ public class FileUtil {
         return folderOut;
     }
 
-    public static boolean createOutputFile(List<String> listFormated) {
-
-        //customer.getCustomersFromList(listFormated);
-        //Sale sale = new Sale();
-        //sale.getSalesFromList(listFormated);
-
-        CustomerService customerService = new CustomerService();
-
-        Customer customer = new Customer();
-
-        for (String line : listFormated) {
-
-            switch (line.substring(0,3)) {
-                case "001": break;
-                case "002": customer.getCustomerList().add(customerService.getCustomerData(line)); break;
-                case "003": break;
-                default: break;
-            }
-
-
-        }
-        //salesman.getSalesmansFromList(listFormated);
+    public static boolean createOutputFile(OutputFile outputFile) {
 
         FileUtil.createDirectory(folderOut);
         try {
             file = new FileWriter(new File(folderOut + "OutputFile.done.txt"));
-            file.write("Amount of clients in the input file: " + customer.getCustomerList().size() + "\r\n"
-                    //+ "Amount of salesman in the input file: " + salesman.amountOfSalesman() + "\r\n"
-                    //+ "Id of the most expensive sale: " + sale.getIdOfTheMostExpensiveSale() + "\r\n"
-                    //+ "Worst salesman ever: " + sale.getWorstSalesmanEver()
-                    );
+            file.write(outputFile.getOutputData());
             file.close();
             return true;
         } catch (IOException e) {
-            logger.error("Write file error: Exception:" + e.getMessage());
+            logger.error("Watcher error", e);
             return false;
         }
     }
-
-    /*public static String replaceAscIIDelimiter(String code) {
-        return code.replaceAll("[^\\p{ASCII}]", ";");
-    }*/
 }
