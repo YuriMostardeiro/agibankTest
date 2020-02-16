@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class SalesmanService extends BaseService {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileService.class);
-    public static final Salesman salesman = new Salesman();
+    private final Logger logger = LoggerFactory.getLogger(FileService.class);
+    public final Salesman salesman = new Salesman();
 
-    public static void getSalesmanData(String line) {
+    public void getSalesmanData(String line) {
         List<String> data = getDataFromLine(line);
 
         if (data == null || data.isEmpty()) {
@@ -24,7 +24,15 @@ public class SalesmanService extends BaseService {
         salesman.setCode(data.get(0));
         salesman.setCpf(data.get(1));
         salesman.setName(data.get(2));
-        salesman.setSalary(Double.parseDouble(data.get(3)));
+
+
+        try {
+            salesman.setSalary(Double.parseDouble(data.get(3)));
+        }
+        catch (NumberFormatException e) {
+            logger.error("Error when parse salary to double.", e);
+            return;
+        }
 
         salesman.getSalesmanList().add(salesman);
         logger.info(salesman.getResult());

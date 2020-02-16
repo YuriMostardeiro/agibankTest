@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService extends BaseService {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileService.class);
-    public static final Customer customer = new Customer();
+    private final Logger logger = LoggerFactory.getLogger(FileService.class);
+    public final Customer customer = new Customer();
 
-    public static void getCustomerData(String line) {
+    public void getCustomerData(String line) {
         List<String> data = getDataFromLine(line);
 
         if (data == null || data.isEmpty()) {

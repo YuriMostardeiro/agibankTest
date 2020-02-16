@@ -25,6 +25,9 @@ public class FileService {
 
 	private final Logger logger = LoggerFactory.getLogger(FileService.class);
 	private final OutputFile outputFile = new OutputFile();
+	private final CustomerService customerService = new CustomerService();
+	private final SalesmanService salesmanService = new SalesmanService();
+	private final SaleService saleService = new SaleService();
 
 	@Autowired
 	private WatchService watcher;
@@ -81,22 +84,22 @@ public class FileService {
 
 			switch (line.substring(0, 3)) {
 				case "001":
-					SalesmanService.getSalesmanData(line);
+					salesmanService.getSalesmanData(line);
 					break;
 				case "002":
-					CustomerService.getCustomerData(line);
+					customerService.getCustomerData(line);
 					break;
 				case "003":
-					SaleService.getSaleData(line);
+					saleService.getSaleData(line);
 					break;
 				default:
 					break;
 			}
 		}
 
-		outputFile.setTotalOfCustomer(CustomerService.customer.getCustomerList().size());
-		outputFile.setTotalOfSalesman(SalesmanService.salesman.getSalesmanList().size());
-		outputFile.setMostExpensiveSale(SaleService.sale.getIdOfTheMostExpensiveSale());
-		outputFile.setWorstSalesman(SaleService.sale.getWorstSalesmanEver());
+		outputFile.setTotalOfCustomer(customerService.customer.getCustomerList().size());
+		outputFile.setTotalOfSalesman(salesmanService.salesman.getSalesmanList().size());
+		outputFile.setMostExpensiveSale(saleService.sale.getIdOfTheMostExpensiveSale());
+		outputFile.setWorstSalesman(saleService.sale.getWorstSalesmanEver());
 	}
 }

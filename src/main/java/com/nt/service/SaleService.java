@@ -10,10 +10,10 @@ import java.util.List;
 @Service
 public class SaleService extends BaseService {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileService.class);
-    public static final Sale sale = new Sale();
+    private final Logger logger = LoggerFactory.getLogger(FileService.class);
+    public final Sale sale = new Sale();
 
-    static void getSaleData(String line) {
+    public void getSaleData(String line) {
         List<String> data = getDataFromLine(line);
 
         if (data.isEmpty()) {
