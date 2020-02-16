@@ -1,7 +1,5 @@
 package com.nt;
 
-
-import com.nt.domain.Customer;
 import com.nt.service.CustomerService;
 import org.junit.jupiter.api.Test;
 

@@ -13,10 +13,10 @@ public class SalesmanService extends BaseService {
     private static final Logger logger = LoggerFactory.getLogger(FileService.class);
     public static final Salesman salesman = new Salesman();
 
-    static void getSalesmanData(String line) {
+    public static void getSalesmanData(String line) {
         List<String> data = getDataFromLine(line);
 
-        if (data.isEmpty()) {
+        if (data == null || data.isEmpty()) {
             logger.error("Error when try to split line for salesman.");
             return;
         }
