@@ -16,7 +16,7 @@ public class CustomerService extends BaseService {
     public static void getCustomerData(String line) {
         List<String> data = getDataFromLine(line);
 
-        if (data.isEmpty()) {
+        if (data == null || data.isEmpty()) {
             logger.error("Error when try to split line for customer.");
             return;
         }

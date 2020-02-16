@@ -1,19 +1,18 @@
 package com.nt;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 import com.nt.domain.Customer;
 import com.nt.service.CustomerService;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class CustomerServiceTest {
 
-    private String sampleStr1 = "002ç2345675434544345çJoseçRural";
-
     @Test
-    public void customerTest() {
-        CustomerService.getCustomerData(sampleStr1);
+    public void customerSucessTest() {
+        String sampleLine = "002ç2345675434544345çJoseçRural";
+        CustomerService.getCustomerData(sampleLine);
 
         assertAll(
                 () -> assertEquals(CustomerService.customer.getCode(), "002"),
@@ -21,5 +20,26 @@ public class CustomerServiceTest {
                 () -> assertEquals(CustomerService.customer.getName(), "Jose"),
                 () -> assertEquals(CustomerService.customer.getBusinessArea(), "Rural")
         );
+    }
+
+    @Test
+    public void customerFailDelimiterTest() {
+        String sampleLine = "002ç2345675434544345çJose AssunçãoçRural";
+        CustomerService.getCustomerData(sampleLine);
+        assertTrue(CustomerService.customer.getCustomerList().isEmpty());
+    }
+
+    @Test
+    public void customerFailLineFormatTest() {
+        String sampleLine = "002ççJose";
+        CustomerService.getCustomerData(sampleLine);
+        assertTrue(CustomerService.customer.getCustomerList().isEmpty());
+    }
+
+    @Test
+    public void customerFailLineEmptyTest() {
+        String sampleLine = "";
+        CustomerService.getCustomerData(sampleLine);
+        assertTrue(CustomerService.customer.getCustomerList().isEmpty());
     }
 }
