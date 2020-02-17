@@ -17,7 +17,7 @@ public class SaleService extends BaseService {
         List<String> data = getDataFromLine(line);
 
         if (data == null || data.isEmpty()) {
-            logger.error("Error when try to split line for sale.");
+            logger.error("Error when try to split row for sale.");
             return;
         }
 
