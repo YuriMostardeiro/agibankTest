@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService extends BaseService {
 
-    private final Logger logger = LoggerFactory.getLogger(FileService.class);
+    private final Logger logger = LoggerFactory.getLogger(CustomerService.class);
     public final Customer customer = new Customer();
 
     public void getCustomerData(String row, DataInput dataInput) {

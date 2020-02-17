@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class SaleService extends BaseService {
 
-    private final Logger logger = LoggerFactory.getLogger(FileService.class);
+    private final Logger logger = LoggerFactory.getLogger(SaleService.class);
     public final Sale sale = new Sale();
 
     public void getSaleData(String row, DataInput dataInput) {

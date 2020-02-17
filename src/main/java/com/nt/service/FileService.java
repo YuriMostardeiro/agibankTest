@@ -1,13 +1,10 @@
 package com.nt.service;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
 import com.nt.domain.DataInput;
-import com.nt.domain.OutputFile;
 import com.nt.util.FileUtil;
 
 import org.slf4j.Logger;
@@ -21,60 +18,45 @@ public class FileService {
 	private final Logger logger = LoggerFactory.getLogger(FileService.class);
 
 	@Autowired
-	private CustomerService customerService;
-
-	@Autowired
-	private SalesmanService salesmanService;
-
-	@Autowired
-	private SaleService saleService = new SaleService();
+	private ProcessService processService;
 
 	public void processFile(String file) throws IOException {
-		List<String> listFormatted = new ArrayList<>();
-		listFormatted = getFileRows(file);
-		OutputFile outputFile = fillOutputFile(listFormatted);
-		FileUtil.createOutputFile(outputFile);
-	}
-
-	private List<String> getFileRows(String file) throws IOException {
-		List<String> listFileRow = new ArrayList<>();
-		BufferedReader buffered = new BufferedReader(new FileReader(file));
-		String row = "";
-
-		while ((row = buffered.readLine()) != null) {
-			listFileRow.add(row);
-		}
-		buffered.close();
-
-		return listFileRow;
-	}
-
-	public OutputFile fillOutputFile(List<String> listFormatted) {
-
 		DataInput dataInput = new DataInput();
-		OutputFile outputFile = new OutputFile();
+		readFile(file, dataInput);
+		FileUtil.createOutputFile(processService.getOutputData(dataInput));
+	}
 
-		listFormatted.stream().forEach((row) ->{
-			switch (row.substring(0, 3)) {
-				case "001":
-					salesmanService.getSalesmanData(row, dataInput);
-					break;
-				case "002":
-					customerService.getCustomerData(row, dataInput);
-					break;
-				case "003":
-					saleService.getSaleData(row, dataInput);
-					break;
-				default:
-					break;
+	private void readFile(String filePath, DataInput dataInput) {
+		FileInputStream inputStream = null;
+		Scanner sc = null;
+
+		try {
+			inputStream = new FileInputStream(filePath);
+			sc = new Scanner(inputStream, "UTF-8");
+
+			while (sc.hasNextLine()) {
+				processService.processRow(sc.nextLine(), dataInput);
 			}
-		});
 
-		outputFile.setTotalOfCustomer(dataInput.getCustomerList().size());
-		outputFile.setTotalOfSalesman(dataInput.getSalesmanList().size());
-		outputFile.setMostExpensiveSale(dataInput.getIdOfTheMostExpensiveSale());
-		outputFile.setWorstSalesman(dataInput.getWorstSalesmanEver());
+			if (sc .ioException() != null)
+				throw sc.ioException();
 
-		return outputFile;
+		} catch (IOException e) {
+			this.logger.error("File error", e);
+		} finally {
+			this.closeStream(inputStream, sc);
+		}
+	}
+
+	private void closeStream(FileInputStream inputStream, Scanner scanner) {
+		if (inputStream != null) {
+			try {
+				inputStream.close();
+			} catch (IOException e) {
+				this.logger.error("Error", e);
+			}
+		}
+		if (scanner != null)
+			scanner.close();
 	}
 }

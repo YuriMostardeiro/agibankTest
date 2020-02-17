@@ -6,20 +6,21 @@ import java.util.List;
 
 abstract class BaseService {
 
-    private final int splitSize = 4;
-    private final String delimiter = "ç";
+    private final int SPLITSIZE = 4;
+    private final String DELIMITER = "ç";
 
     public List<String> getDataFromLine(String line) {
-        List<String> result = Arrays.asList(line.split(delimiter));
-        if (result.size() == splitSize) {
+        List<String> result = Arrays.asList(line.split(DELIMITER));
+        if (result.size() == SPLITSIZE) {
             return result;
         }
-        else if (result.size() < splitSize) {
+        else if (result.size() < SPLITSIZE) {
             return null;
         }
 
-        List<String> newResult = splitFieldWithDelimiterCharacter(result, delimiter);
-        if (newResult.size() != splitSize)
+
+        List<String> newResult = splitFieldWithDelimiterCharacter(result, DELIMITER);
+        if (newResult.size() != SPLITSIZE)
             return null;
 
         return newResult;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SalesmanService extends BaseService {
 
-    private final Logger logger = LoggerFactory.getLogger(FileService.class);
+    private final Logger logger = LoggerFactory.getLogger(SaleService.class);
     public final Salesman salesman = new Salesman();
 
     public void getSalesmanData(String row, DataInput dataInput) {
