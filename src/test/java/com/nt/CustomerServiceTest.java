@@ -28,7 +28,7 @@ public class CustomerServiceTest {
     public void customerFailDelimiterTest() {
         String sampleLine = "002ç2345675434544345çJose AssunçãoçRural";
         customerService.getCustomerData(sampleLine);
-        assertTrue(customerService.customer.getCustomerList().isEmpty());
+        assertEquals(customerService.customer.getName(), "Jose Assunção");
     }
 
     @Test

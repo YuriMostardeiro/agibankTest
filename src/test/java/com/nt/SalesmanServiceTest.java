@@ -29,7 +29,8 @@ public class SalesmanServiceTest {
 
         String sampleLine = "001ç1234567891234çPedro Assunçaoç50000";
         salesmanService.getSalesmanData(sampleLine);
-        assertTrue(salesmanService.salesman.getSalesmanList().isEmpty());
+
+        assertEquals(salesmanService.salesman.getName(), "Pedro Assunçao");
     }
 
     @Test
