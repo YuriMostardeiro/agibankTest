@@ -3,7 +3,6 @@ package com.nt.service;
 import com.nt.domain.DataInput;
 import com.nt.domain.Salesman;
 import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;

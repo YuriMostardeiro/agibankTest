@@ -26,15 +26,13 @@ public class FileUtil {
         return folderIn;
     }
 
-    public static boolean createOutputFile(OutputFile outputFile) {
+    public static void createOutputFile(OutputFile outputFile) {
         try {
             FileWriter file = new FileWriter(new File(folderOut + "OutputFile.done"));
             file.write(outputFile.getOutputData());
             file.close();
-            return true;
         } catch (IOException e) {
             logger.error("Watcher error", e);
-            return false;
         }
     }
 

@@ -26,7 +26,7 @@ public class FileService {
 		List<String> listFormatted = new ArrayList<>();
 		listFormatted = getFileRows(file);
 		OutputFile outputFile = fillOutputFile(listFormatted);
-		createOutputFile(outputFile);
+		FileUtil.createOutputFile(outputFile);
 	}
 
 	private List<String> getFileRows(String file) throws IOException {

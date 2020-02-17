@@ -1,10 +1,5 @@
 package com.nt.domain;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-
 public class Sale {
 	private String code;
 	private String saleId;

@@ -1,8 +1,5 @@
 package com.nt.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Customer {
 
 	private String code;
