@@ -6,18 +6,20 @@ import java.util.List;
 
 abstract class BaseService {
 
+    private final int splitSize = 4;
+    private final String delimiter = "ç";
+
     public List<String> getDataFromLine(String line) {
-        String delimiter = "ç";
         List<String> result = Arrays.asList(line.split(delimiter));
-        if (result.size() == 4) {
+        if (result.size() == splitSize) {
             return result;
         }
-        else if (result.size() < 4) {
+        else if (result.size() < splitSize) {
             return null;
         }
 
         List<String> newResult = splitFieldWithDelimiterCharacter(result, delimiter);
-        if (newResult.size() != 4)
+        if (newResult.size() != splitSize)
             return null;
 
         return newResult;
@@ -26,6 +28,7 @@ abstract class BaseService {
     private List<String> splitFieldWithDelimiterCharacter(List<String> result, String delimiter) {
         List<String> newResult = new ArrayList<>();
         List<String> temp = new ArrayList<>();
+
         for (String split : result) {
             if (isNumeric(split)) {
                 if (!temp.isEmpty()) {
