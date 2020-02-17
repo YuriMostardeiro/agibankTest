@@ -3,7 +3,7 @@ package com.nt.service;
 import java.util.Arrays;
 import java.util.List;
 
-public class BaseService {
+public abstract class BaseService {
 
     public BaseService() {
 

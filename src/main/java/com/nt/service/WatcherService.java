@@ -22,9 +22,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class WatcherService {
 
-    private final Logger logger = LoggerFactory.getLogger(FileService.class);
+    private final Logger logger = LoggerFactory.getLogger(WatcherService.class);
 
-    private final FileService fileService = new FileService();
+    @Autowired
+    private FileService fileService;
 
     @Autowired
     private WatchService watcher;
@@ -43,19 +44,10 @@ public class WatcherService {
                 WatchKey key = watcher.take();
                 Optional<WatchEvent<?>> watchEvent = key.pollEvents().stream().findFirst();
                 Path path = (Path) watchEvent.get().context();
-                if (path.toString().endsWith(".txt")) {
-                    this.logger.info("ReadFile Started");
 
-                    List<String> listFileRow = new ArrayList<>();
-                    BufferedReader buffered = new BufferedReader(new FileReader(FileUtil.getFolderIn() + "\\" + path.toString()));
-                    String row = "";
-
-                    while ((row = buffered.readLine()) != null) {
-                        listFileRow.add(row);
-                    }
-                    buffered.close();
-
-                    fileService.createOutputFile(fileService.fillOutputFile(listFileRow));
+                if (path.toString().endsWith(".dat")) {
+                    this.logger.info("ReadFile Started. FileName: " + path.getFileName());
+                    fileService.processFile(FileUtil.getFolderIn() + "\\" + path.toString());
                     this.logger.info("OutputFile Updated");
                 }
                 boolean valid = key.reset();

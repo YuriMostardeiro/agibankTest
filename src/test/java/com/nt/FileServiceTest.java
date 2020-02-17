@@ -5,6 +5,7 @@ import com.nt.service.FileService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,5 +67,14 @@ public class FileServiceTest {
                 () -> assertEquals(outputFile.getMostExpensiveSale(), "08"),
                 () -> assertEquals(outputFile.getWorstSalesman(), "Renato")
         );
+    }
+
+    @Test
+    public void fileExceptionThrownIOException() {
+        Exception exception = assertThrows(IOException.class, () -> {
+            fileService.processFile("c:/nofilehere/nofile.dat");
+        });
+
+        assertEquals(java.io.FileNotFoundException.class,exception.getClass());
     }
 }
