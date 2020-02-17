@@ -4,7 +4,7 @@ Java solution for Agibank Watcher challenge. Read .DAT file and output .done fil
 
 ## Program solution
 
-This program was created using Java with Springboots as build tool and Junit for the testing. 
+This program was created using Java with Spring boot as build tool and Junit for the testing. 
 The program read .dat file model and split data by 'ç'. The output .done file gives the number of costumers, number of salesman, the worst salesman in the file and rhe id of most expansive sale
 
 ## Input file
