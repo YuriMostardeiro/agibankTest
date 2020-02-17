@@ -12,31 +12,31 @@ public class CustomerServiceTest {
     @InjectMocks
     private CustomerService customerService = new CustomerService();
 
-    @InjectMocks
-    private DataInput dataInput = new DataInput();
-
     @Test
     public void customerSucessTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "002ç2345675434544345çJoseçRural";
         customerService.getCustomerData(sampleLine, dataInput);
 
         assertAll(
-                () -> assertEquals(customerService.customer.getCode(), "002"),
-                () -> assertEquals(customerService.customer.getCompanyNumber(), "2345675434544345"),
-                () -> assertEquals(customerService.customer.getName(), "Jose"),
-                () -> assertEquals(customerService.customer.getBusinessArea(), "Rural")
+                () -> assertEquals(dataInput.getCustomerList().get(0).getCode(), "002"),
+                () -> assertEquals(dataInput.getCustomerList().get(0).getCompanyNumber(), "2345675434544345"),
+                () -> assertEquals(dataInput.getCustomerList().get(0).getName(), "Jose"),
+                () -> assertEquals(dataInput.getCustomerList().get(0).getBusinessArea(), "Rural")
         );
     }
 
     @Test
     public void customerFailDelimiterTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "002ç2345675434544345çJose AssunçãoçRural";
         customerService.getCustomerData(sampleLine, dataInput);
-        assertEquals(customerService.customer.getName(), "Jose Assunção");
+        assertEquals(dataInput.getCustomerList().get(0).getName(), "Jose Assunção");
     }
 
     @Test
     public void customerFailLineFormatTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "002ççJose";
         customerService.getCustomerData(sampleLine, dataInput);
         assertTrue(dataInput.getCustomerList().isEmpty());
@@ -44,6 +44,7 @@ public class CustomerServiceTest {
 
     @Test
     public void customerFailLineEmptyTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "";
         customerService.getCustomerData(sampleLine, dataInput);
         assertTrue(dataInput.getCustomerList().isEmpty());

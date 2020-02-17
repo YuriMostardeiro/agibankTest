@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileService {
 
-	private final Logger logger = LoggerFactory.getLogger(FileService.class);
+	private final Logger LOGGER = LoggerFactory.getLogger(FileService.class);
 
 	@Autowired
 	private ProcessService processService;
@@ -42,7 +42,7 @@ public class FileService {
 				throw sc.ioException();
 
 		} catch (IOException e) {
-			this.logger.error("File error", e);
+			this.LOGGER.error("File error", e);
 		} finally {
 			this.closeStream(inputStream, sc);
 		}
@@ -53,7 +53,7 @@ public class FileService {
 			try {
 				inputStream.close();
 			} catch (IOException e) {
-				this.logger.error("Error", e);
+				this.LOGGER.error("Error", e);
 			}
 		}
 		if (scanner != null)

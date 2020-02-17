@@ -11,33 +11,33 @@ public class SalesmanServiceTest {
 
     @InjectMocks
     private SalesmanService salesmanService = new SalesmanService();
-    @InjectMocks
-    private DataInput dataInput = new DataInput();
 
     @Test
     public void salesmanSucessTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "001ç1234567891234çPedroç50000";
         salesmanService.getSalesmanData(sampleLine, dataInput);
 
         assertAll(
-                () -> assertEquals(salesmanService.salesman.getCode(), "001"),
-                () -> assertEquals(salesmanService.salesman.getCpf(), "1234567891234"),
-                () -> assertEquals(salesmanService.salesman.getName(), "Pedro"),
-                () -> assertEquals(salesmanService.salesman.getSalary(), Double.parseDouble("50000"))
+                () -> assertEquals(dataInput.getSalesmanList().get(0).getCode(), "001"),
+                () -> assertEquals(dataInput.getSalesmanList().get(0).getCpf(), "1234567891234"),
+                () -> assertEquals(dataInput.getSalesmanList().get(0).getName(), "Pedro"),
+                () -> assertEquals(dataInput.getSalesmanList().get(0).getSalary(), Double.parseDouble("50000"))
         );
     }
 
     @Test
     public void salesmanFailDelimiterTest() {
-
+        DataInput dataInput = new DataInput();
         String sampleLine = "001ç1234567891234çPedro Assunçaoç50000";
         salesmanService.getSalesmanData(sampleLine, dataInput);
 
-        assertEquals(salesmanService.salesman.getName(), "Pedro Assunçao");
+        assertEquals(dataInput.getSalesmanList().get(0).getName(), "Pedro Assunçao");
     }
 
     @Test
     public void salesmanFailLineFormatTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "001ç1250000";
         salesmanService.getSalesmanData(sampleLine, dataInput);
         assertTrue(dataInput.getSalesmanList().isEmpty());
@@ -45,6 +45,7 @@ public class SalesmanServiceTest {
 
     @Test
     public void salesmanFailLineEmptyTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "";
         salesmanService.getSalesmanData(sampleLine, dataInput);
         assertTrue(dataInput.getSalesmanList().isEmpty());
@@ -52,6 +53,7 @@ public class SalesmanServiceTest {
 
     @Test
     public void salesmanFailSalaryTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "001ç1234567891234çPedroçfivedollars";
         salesmanService.getSalesmanData(sampleLine, dataInput);
         assertTrue(dataInput.getSalesmanList().isEmpty());

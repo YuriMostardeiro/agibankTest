@@ -12,27 +12,27 @@ import org.slf4j.LoggerFactory;
 
 public class FileUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileService.class);
-    private static final String folderIn = System.getProperty("user.home") + "\\data\\in\\";
-    private static final String folderOut = System.getProperty("user.home") + "\\data\\out\\";
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileService.class);
+    private static final String FOLDERIN = System.getProperty("user.home") + "\\data\\in\\";
+    private static final String FOLDEROUT = System.getProperty("user.home") + "\\data\\out\\";
 
 
     public static void createDirectory() {
-        createIfNotExists(folderIn);
-        createIfNotExists(folderOut);
+        createIfNotExists(FOLDERIN);
+        createIfNotExists(FOLDEROUT);
     }
 
-    public static String getFolderIn() {
-        return folderIn;
+    public static String getFolderin() {
+        return FOLDERIN;
     }
 
     public static void createOutputFile(OutputFile outputFile) {
         try {
-            FileWriter file = new FileWriter(new File(folderOut + "OutputFile.done"));
+            FileWriter file = new FileWriter(new File(FOLDEROUT + "OutputFile.done"));
             file.write(outputFile.getOutputData());
             file.close();
         } catch (IOException e) {
-            logger.error("Watcher error", e);
+            LOGGER.error("Watcher error", e);
         }
     }
 

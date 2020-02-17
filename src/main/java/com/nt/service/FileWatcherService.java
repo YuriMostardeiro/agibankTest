@@ -20,19 +20,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileWatcherService {
 
-    private final Logger logger = LoggerFactory.getLogger(FileWatcherService.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(FileWatcherService.class);
 
     @Autowired
     private FileService fileService;
 
     public void watchFile() {
         try {
-            this.logger.info("Watcher Started");
+            this.LOGGER.info("Watcher Started");
 
             FileUtil.createDirectory();
             WatchService watcher = FileSystems.getDefault().newWatchService();
 
-            Path directory = Paths.get(FileUtil.getFolderIn());
+            Path directory = Paths.get(FileUtil.getFolderin());
             directory.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
 
             while (true) {
@@ -41,19 +41,19 @@ public class FileWatcherService {
                 Path path = (Path) watchEvent.get().context();
 
                 if (path.toString().endsWith(".dat")) {
-                    this.logger.info("ReadFile Started. FileName: " + path.getFileName());
-                    fileService.processFile(FileUtil.getFolderIn() + "/" + path.toString());
-                    this.logger.info("OutputFile Updated");
+                    this.LOGGER.info("ReadFile Started. FileName: " + path.getFileName());
+                    fileService.processFile(FileUtil.getFolderin() + "/" + path.toString());
+                    this.LOGGER.info("OutputFile Updated");
                 }
                 boolean valid = key.reset();
                 if (!valid) {
-                    this.logger.info("Watcher Stoped");
+                    this.LOGGER.info("Watcher Stoped");
                     break;
                 }
             }
             watcher.close();
         } catch (IOException | InterruptedException e) {
-            this.logger.error("Watcher error", e);
+            this.LOGGER.error("Watcher error", e);
             e.printStackTrace();
         }
     }

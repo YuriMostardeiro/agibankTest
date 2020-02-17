@@ -1,33 +1,34 @@
 package com.nt.service;
 
+import java.util.List;
+
 import com.nt.domain.DataInput;
 import com.nt.domain.Sale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class SaleService extends BaseService {
 
-    private final Logger logger = LoggerFactory.getLogger(SaleService.class);
-    public final Sale sale = new Sale();
+    private final Logger LOGGER = LoggerFactory.getLogger(SaleService.class);
 
     public void getSaleData(String row, DataInput dataInput) {
         List<String> data = getDataFromLine(row);
 
         if (data == null || data.isEmpty()) {
-            logger.error("Error when try to split row for sale.");
+            LOGGER.error("Error when try to split row for sale.");
             return;
         }
 
+        Sale sale = new Sale();
+
         double salesprice = 0;
-        try{
+        try {
             salesprice = sale.getSalesTotalPrice(data.get(2));
-        }
-        catch(Exception e){
-            logger.error("Error when try to get sale total price.", e);
+        } catch (Exception e) {
+            LOGGER.error("Error when try to get sale total price.", e);
             return;
         }
 
@@ -36,7 +37,7 @@ public class SaleService extends BaseService {
         sale.setSalePrice(salesprice);
         sale.setSalesmanName(data.get(3));
 
-        dataInput.getSaleList().add(new Sale(sale.getCode(), sale.getSaleId(), sale.getSalePrice(), sale.getSalesmanName()));
-        logger.info(sale.getResult());
+        dataInput.getSaleList().add(sale);
+        LOGGER.info(sale.getResult());
     }
 }

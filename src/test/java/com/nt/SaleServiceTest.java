@@ -13,34 +13,36 @@ public class SaleServiceTest {
 
     @InjectMocks
     private SaleService saleService = new SaleService();
-    @InjectMocks
-    private DataInput dataInput = new DataInput();
+
     @Test
     public void saleSucessTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "003ç10ç[1-10-100,2-30-2.50,3-40-3.10]çDiego";
         saleService.getSaleData(sampleLine, dataInput);
 
         assertAll(
-                () -> assertEquals(saleService.sale.getCode(), "003"),
-                () -> assertEquals(saleService.sale.getSaleId(), "10"),
-                () -> assertEquals(saleService.sale.getSalesmanName(),"Diego")
+                () -> assertEquals(dataInput.getSaleList().get(0).getCode(), "003"),
+                () -> assertEquals(dataInput.getSaleList().get(0).getSaleId(), "10"),
+                () -> assertEquals(dataInput.getSaleList().get(0).getSalesmanName(),"Diego")
         );
     }
 
     @Test
     public void saleItemSuccessTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "003ç10ç[1-10-100,2-30-2.50,3-40-3.10]çDiego";
         List<String> data = saleService.getDataFromLine(sampleLine);
 
         saleService.getSaleData(sampleLine, dataInput);
         assertAll(
                 () -> assertEquals(data.get(2), "[1-10-100,2-30-2.50,3-40-3.10]"),
-                () -> assertEquals(saleService.sale.getSalesTotalPrice(data.get(2)), Double.parseDouble("1199"))
+                () -> assertEquals(dataInput.getSaleList().get(0).getSalesTotalPrice(data.get(2)), Double.parseDouble("1199"))
         );
     }
 
     @Test
     public void saleFailDelimiterTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "003ç10ç[1-10-100ç,2-30-2.50,3-40-3.10]çDiego";
         saleService.getSaleData(sampleLine, dataInput);
         assertTrue(dataInput.getSaleList().isEmpty());
@@ -48,6 +50,7 @@ public class SaleServiceTest {
 
     @Test
     public void saleFailLineFormatTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "003ç10ç[1-10-100";
         saleService.getSaleData(sampleLine, dataInput);
         assertTrue(dataInput.getSaleList().isEmpty());
@@ -55,6 +58,7 @@ public class SaleServiceTest {
 
     @Test
     public void saleFailLineEmptyTest() {
+        DataInput dataInput = new DataInput();
         String sampleLine = "";
         saleService.getSaleData(sampleLine, dataInput);
         assertTrue(dataInput.getSaleList().isEmpty());
