@@ -8,7 +8,6 @@ public class Salesman {
 	private String cpf;
 	private String name;
 	private double salary;
-	private List<Salesman> salesmanList = new ArrayList<Salesman>();
 
 	public Salesman() {
 		
@@ -44,10 +43,6 @@ public class Salesman {
 
 	public void setSalary(double salary) {
 		this.salary = salary;
-	}
-
-	public List<Salesman> getSalesmanList() {
-		return salesmanList;
 	}
 
 	public String getResult() {

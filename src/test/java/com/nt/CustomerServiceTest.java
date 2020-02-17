@@ -1,5 +1,6 @@
 package com.nt;
 
+import com.nt.domain.DataInput;
 import com.nt.service.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,10 +12,13 @@ public class CustomerServiceTest {
     @InjectMocks
     private CustomerService customerService = new CustomerService();
 
+    @InjectMocks
+    private DataInput dataInput = new DataInput();
+
     @Test
     public void customerSucessTest() {
         String sampleLine = "002ç2345675434544345çJoseçRural";
-        customerService.getCustomerData(sampleLine);
+        customerService.getCustomerData(sampleLine, dataInput);
 
         assertAll(
                 () -> assertEquals(customerService.customer.getCode(), "002"),
@@ -27,21 +31,21 @@ public class CustomerServiceTest {
     @Test
     public void customerFailDelimiterTest() {
         String sampleLine = "002ç2345675434544345çJose AssunçãoçRural";
-        customerService.getCustomerData(sampleLine);
+        customerService.getCustomerData(sampleLine, dataInput);
         assertEquals(customerService.customer.getName(), "Jose Assunção");
     }
 
     @Test
     public void customerFailLineFormatTest() {
         String sampleLine = "002ççJose";
-        customerService.getCustomerData(sampleLine);
-        assertTrue(customerService.customer.getCustomerList().isEmpty());
+        customerService.getCustomerData(sampleLine, dataInput);
+        assertTrue(dataInput.getCustomerList().isEmpty());
     }
 
     @Test
     public void customerFailLineEmptyTest() {
         String sampleLine = "";
-        customerService.getCustomerData(sampleLine);
-        assertTrue(customerService.customer.getCustomerList().isEmpty());
+        customerService.getCustomerData(sampleLine, dataInput);
+        assertTrue(dataInput.getCustomerList().isEmpty());
     }
 }

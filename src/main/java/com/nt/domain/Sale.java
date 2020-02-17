@@ -10,7 +10,6 @@ public class Sale {
 	private String saleId;
 	private double salePrice;
 	private String salesmanName;
-	private List<Sale> sales = new ArrayList<Sale>();
 
 	public Sale(String code, String saleid, double saleprice, String salemanName) {
 		this.code = code;
@@ -31,10 +30,6 @@ public class Sale {
 		this.code = code;
 	}
 
-	public int amoutOfSales() {
-		return sales.size();
-	}
-
 	public double getSalesTotalPrice(String sale) {
 		double price = 0;
 		String splitincoma[] = sale.split(",");
@@ -46,28 +41,6 @@ public class Sale {
 			}
 		}
 		return price;
-	}
-
-	public String getIdOfTheMostExpensiveSale() {
-		sales.sort(Comparator.comparing(Sale::getSalePrice).reversed());
-
-		if (sales.stream().count() > 0){
-			return sales.get(0).getSaleId();
-		}
-		else{
-			return "no sales";
-		}
-	}
-
-	public String getWorstSalesmanEver() {
-		sales.sort(Comparator.comparing(Sale::getSalePrice));
-
-		if (sales.stream().count() > 0){
-			return sales.get(0).getSalesmanName();
-		}
-		else{
-			return "no salesman";
-		}
 	}
 
 	public String getSaleId() {
@@ -92,10 +65,6 @@ public class Sale {
 
 	public void setSalesmanName(String salesmanName) {
 		this.salesmanName = salesmanName;
-	}
-
-	public List<Sale> getSalesList() {
-		return sales;
 	}
 
 	public String getResult() {

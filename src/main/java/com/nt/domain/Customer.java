@@ -9,7 +9,6 @@ public class Customer {
 	private String companyNumber;
 	private String name;
 	private String businessArea;
-	private List<Customer> customerList = new ArrayList<Customer>();
 
 	public Customer() {
 		
@@ -45,10 +44,6 @@ public class Customer {
 
 	public void setBusinessArea(String businessArea) {
 		this.businessArea = businessArea;
-	}
-
-	public List<Customer> getCustomerList() {
-		return customerList;
 	}
 
 	public String getResult() {

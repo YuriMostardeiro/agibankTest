@@ -1,5 +1,6 @@
 package com.nt;
 
+import com.nt.domain.DataInput;
 import com.nt.service.SalesmanService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -10,11 +11,13 @@ public class SalesmanServiceTest {
 
     @InjectMocks
     private SalesmanService salesmanService = new SalesmanService();
+    @InjectMocks
+    private DataInput dataInput = new DataInput();
 
     @Test
     public void salesmanSucessTest() {
         String sampleLine = "001ç1234567891234çPedroç50000";
-        salesmanService.getSalesmanData(sampleLine);
+        salesmanService.getSalesmanData(sampleLine, dataInput);
 
         assertAll(
                 () -> assertEquals(salesmanService.salesman.getCode(), "001"),
@@ -28,7 +31,7 @@ public class SalesmanServiceTest {
     public void salesmanFailDelimiterTest() {
 
         String sampleLine = "001ç1234567891234çPedro Assunçaoç50000";
-        salesmanService.getSalesmanData(sampleLine);
+        salesmanService.getSalesmanData(sampleLine, dataInput);
 
         assertEquals(salesmanService.salesman.getName(), "Pedro Assunçao");
     }
@@ -36,21 +39,21 @@ public class SalesmanServiceTest {
     @Test
     public void salesmanFailLineFormatTest() {
         String sampleLine = "001ç1250000";
-        salesmanService.getSalesmanData(sampleLine);
-        assertTrue(salesmanService.salesman.getSalesmanList().isEmpty());
+        salesmanService.getSalesmanData(sampleLine, dataInput);
+        assertTrue(dataInput.getSalesmanList().isEmpty());
     }
 
     @Test
     public void salesmanFailLineEmptyTest() {
         String sampleLine = "";
-        salesmanService.getSalesmanData(sampleLine);
-        assertTrue(salesmanService.salesman.getSalesmanList().isEmpty());
+        salesmanService.getSalesmanData(sampleLine, dataInput);
+        assertTrue(dataInput.getSalesmanList().isEmpty());
     }
 
     @Test
     public void salesmanFailSalaryTest() {
         String sampleLine = "001ç1234567891234çPedroçfivedollars";
-        salesmanService.getSalesmanData(sampleLine);
-        assertTrue(salesmanService.salesman.getSalesmanList().isEmpty());
+        salesmanService.getSalesmanData(sampleLine, dataInput);
+        assertTrue(dataInput.getSalesmanList().isEmpty());
     }
 }

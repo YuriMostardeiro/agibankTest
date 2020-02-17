@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nt.domain.DataInput;
 import com.nt.domain.OutputFile;
 import com.nt.util.FileUtil;
 
@@ -42,28 +43,29 @@ public class FileService {
 
 	public OutputFile fillOutputFile(List<String> listFormatted) {
 
+		DataInput dataInput = new DataInput();
 		OutputFile outputFile = new OutputFile();
-		for (String line : listFormatted) {
+		for (String row : listFormatted) {
 
-			switch (line.substring(0, 3)) {
+			switch (row.substring(0, 3)) {
 				case "001":
-					salesmanService.getSalesmanData(line);
+					salesmanService.getSalesmanData(row, dataInput);
 					break;
 				case "002":
-					customerService.getCustomerData(line);
+					customerService.getCustomerData(row, dataInput);
 					break;
 				case "003":
-					saleService.getSaleData(line);
+					saleService.getSaleData(row, dataInput);
 					break;
 				default:
 					break;
 			}
 		}
 
-		outputFile.setTotalOfCustomer(customerService.customer.getCustomerList().size());
-		outputFile.setTotalOfSalesman(salesmanService.salesman.getSalesmanList().size());
-		outputFile.setMostExpensiveSale(saleService.sale.getIdOfTheMostExpensiveSale());
-		outputFile.setWorstSalesman(saleService.sale.getWorstSalesmanEver());
+		outputFile.setTotalOfCustomer(dataInput.getCustomerList().size());
+		outputFile.setTotalOfSalesman(dataInput.getSalesmanList().size());
+		outputFile.setMostExpensiveSale(dataInput.getIdOfTheMostExpensiveSale());
+		outputFile.setWorstSalesman(dataInput.getWorstSalesmanEver());
 
 		return outputFile;
 	}

@@ -1,6 +1,7 @@
 package com.nt.service;
 
 import com.nt.domain.Customer;
+import com.nt.domain.DataInput;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
@@ -13,8 +14,8 @@ public class CustomerService extends BaseService {
     private final Logger logger = LoggerFactory.getLogger(FileService.class);
     public final Customer customer = new Customer();
 
-    public void getCustomerData(String line) {
-        List<String> data = getDataFromLine(line);
+    public void getCustomerData(String row, DataInput dataInput) {
+        List<String> data = getDataFromLine(row);
 
         if (data == null || data.isEmpty()) {
             logger.error("Error when try to split row for customer.");
@@ -26,7 +27,7 @@ public class CustomerService extends BaseService {
         customer.setName(data.get(2));
         customer.setBusinessArea(data.get(3));
 
-        customer.getCustomerList().add(customer);
+        dataInput.getCustomerList().add(customer);
         logger.info(customer.getResult());
     }
 }

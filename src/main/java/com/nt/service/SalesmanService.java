@@ -1,5 +1,6 @@
 package com.nt.service;
 
+import com.nt.domain.DataInput;
 import com.nt.domain.Salesman;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +14,8 @@ public class SalesmanService extends BaseService {
     private final Logger logger = LoggerFactory.getLogger(FileService.class);
     public final Salesman salesman = new Salesman();
 
-    public void getSalesmanData(String line) {
-        List<String> data = getDataFromLine(line);
+    public void getSalesmanData(String row, DataInput dataInput) {
+        List<String> data = getDataFromLine(row);
 
         if (data == null || data.isEmpty()) {
             logger.error("Error when try to split row for salesman.");
@@ -34,7 +35,7 @@ public class SalesmanService extends BaseService {
             return;
         }
 
-        salesman.getSalesmanList().add(salesman);
+        dataInput.getSalesmanList().add(salesman);
         logger.info(salesman.getResult());
     }
 }
