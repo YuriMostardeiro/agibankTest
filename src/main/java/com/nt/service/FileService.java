@@ -23,7 +23,8 @@ public class FileService {
 	private final SaleService saleService = new SaleService();
 
 	public void processFile(String file) throws IOException {
-		List<String> listFormatted = getFileRows(file);
+		List<String> listFormatted = new ArrayList<>();
+		listFormatted = getFileRows(file);
 		OutputFile outputFile = fillOutputFile(listFormatted);
 		createOutputFile(outputFile);
 	}

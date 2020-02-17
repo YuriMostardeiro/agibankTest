@@ -23,9 +23,7 @@ import org.springframework.stereotype.Service;
 public class WatcherService {
 
     private final Logger logger = LoggerFactory.getLogger(WatcherService.class);
-
-    @Autowired
-    private FileService fileService;
+    private final FileService fileService = new FileService();
 
     @Autowired
     private WatchService watcher;
@@ -34,7 +32,7 @@ public class WatcherService {
         try {
             this.logger.info("Watcher Started");
 
-            FileUtil.createDirectory(FileUtil.getFolderIn());
+            FileUtil.createDirectory();
             watcher = FileSystems.getDefault().newWatchService();
 
             Path directory = Paths.get(FileUtil.getFolderIn());
@@ -47,6 +45,7 @@ public class WatcherService {
 
                 if (path.toString().endsWith(".dat")) {
                     this.logger.info("ReadFile Started. FileName: " + path.getFileName());
+                    String me = FileUtil.getFolderIn() + "\\" + path.toString();
                     fileService.processFile(FileUtil.getFolderIn() + "\\" + path.toString());
                     this.logger.info("OutputFile Updated");
                 }
