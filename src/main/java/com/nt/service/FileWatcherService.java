@@ -29,7 +29,7 @@ public class FileWatcherService {
         try {
             this.LOGGER.info("Watcher Started");
 
-            WatchService watcher = instanceWatcher();
+            WatchService watcher = startWatcher();
             executeWatcher(watcher);
             watcher.close();
         } catch (IOException | InterruptedException e) {
@@ -57,7 +57,7 @@ public class FileWatcherService {
         }
     }
 
-    private WatchService instanceWatcher() throws IOException {
+    private WatchService startWatcher() throws IOException {
         FileUtil.createDirectory();
         WatchService watcher = FileSystems.getDefault().newWatchService();
 
