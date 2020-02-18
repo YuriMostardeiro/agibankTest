@@ -11,6 +11,6 @@ public class WatchApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(WatchApplication.class, args);
 		FileWatcherService fileWatcherService = context.getBean(FileWatcherService.class);
-		fileWatcherService.watchFile();
+		fileWatcherService.watchInputFolder();
 	}
 }
