@@ -22,40 +22,51 @@ public class FileWatcherService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(FileWatcherService.class);
 
-    private WatchService watchService;
+    private WatchService watchService= FileSystems.getDefault().newWatchService();;
 
     @Autowired
     private FileService fileService;
 
+    public FileWatcherService() throws IOException {
+    }
+
     public void watchInputFolder() {
         try {
             this.LOGGER.info("Watcher Started");
-            FileUtil.createDirectory();
-            startWatchService();
+            createDirectory();
+            startWatcherService();
             executeWatchService();
-            closeWatchService();
+            closeWatcherService();
         } catch (IOException | InterruptedException e) {
             this.LOGGER.error("Watcher error", e);
         }
     }
 
-    private void startWatchService() throws IOException {
-        watchService = FileSystems.getDefault().newWatchService();
-        Path directory = Paths.get(FileUtil.getFolderin());
-        directory.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+    private void createDirectory(){
+        FileUtil.createDirectory();
     }
 
-    private void executeWatchService() throws InterruptedException, IOException {
-        while (true) {
-            WatchKey key = watchService.take();
-            Optional<WatchEvent<?>> watchEvent = key.pollEvents().stream().findFirst();
-            Path path = (Path) watchEvent.get().context();
-            fileService.validateAndProcessInputFile(FileUtil.getFolderin() + "/" + path.toString());
+    private void startWatcherService() throws IOException {
+        Paths.get(FileUtil.getFolderin()).register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+    }
+
+    private void executeWatchService() throws InterruptedException {
+        WatchKey key;
+        while ((key = watchService.take()) != null) {
+            fileService.validateAndProcessInputFile(FileUtil.getFolderin() + "/" + path(key).toString());
             key.reset();
         }
     }
 
-    private void closeWatchService() throws IOException {
+    private Object path(WatchKey key){
+        return pollEvents(key).get().context();
+    }
+
+    private Optional<WatchEvent<?>> pollEvents(WatchKey key){
+        return key.pollEvents().stream().findFirst();
+    }
+
+    private void closeWatcherService() throws IOException {
         watchService.close();
     }
 }
