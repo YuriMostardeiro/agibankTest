@@ -17,18 +17,24 @@ public class CustomerService extends BaseService {
     public void getCustomerData(String row, DataInput dataInput) {
         List<String> data = getDataFromLine(row);
 
-        if (data == null || data.isEmpty()) {
-            LOGGER.error("Error when try to split row for customer.");
-            return;
-        }
+        addCustomerToList(dataInput, data);
+    }
 
+    private Customer setCustomerData(List<String> data)
+    {
         Customer customer = new Customer();
         customer.setCode(data.get(0));
         customer.setCompanyNumber(data.get(1));
         customer.setName(data.get(2));
         customer.setBusinessArea(data.get(3));
-
-        dataInput.getCustomerList().add(customer);
         LOGGER.info(customer.getResult());
+
+        return customer;
+    }
+
+    private void addCustomerToList(DataInput dataInput, List<String> data) {
+        if (data != null && !data.isEmpty()) {
+            dataInput.getCustomerList().add(setCustomerData(data));
+        }
     }
 }

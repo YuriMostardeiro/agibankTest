@@ -22,6 +22,12 @@ public class SaleService extends BaseService {
             return;
         }
 
+        Sale sale = setSaleData(data);
+
+        addSaleToList(dataInput, sale);
+    }
+
+    private Sale setSaleData(List<String> data) {
         Sale sale = new Sale();
 
         double salesprice = 0;
@@ -29,7 +35,7 @@ public class SaleService extends BaseService {
             salesprice = sale.getSalesTotalPrice(data.get(2));
         } catch (Exception e) {
             LOGGER.error("Error when try to get sale total price.", e);
-            return;
+            return null;
         }
 
         sale.setCode(data.get(0));
@@ -37,7 +43,14 @@ public class SaleService extends BaseService {
         sale.setSalePrice(salesprice);
         sale.setSalesmanName(data.get(3));
 
-        dataInput.getSaleList().add(sale);
         LOGGER.info(sale.getResult());
+
+        return sale;
+    }
+
+    private void addSaleToList(DataInput dataInput, Sale sale) {
+        if (sale != null) {
+            dataInput.getSaleList().add(sale);
+        }
     }
 }

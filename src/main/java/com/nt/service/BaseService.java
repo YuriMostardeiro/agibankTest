@@ -1,5 +1,8 @@
 package com.nt.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +11,7 @@ abstract class BaseService {
 
     private final int SPLITSIZE = 4;
     private final String DELIMITER = "ç";
+    private final Logger LOGGER = LoggerFactory.getLogger(BaseService.class);
 
     public List<String> getDataFromLine(String line) {
         List<String> result = Arrays.asList(line.split(DELIMITER));
@@ -17,7 +21,6 @@ abstract class BaseService {
         else if (result.size() < SPLITSIZE) {
             return null;
         }
-
 
         List<String> newResult = splitFieldWithDelimiterCharacter(result, DELIMITER);
         if (newResult.size() != SPLITSIZE)
