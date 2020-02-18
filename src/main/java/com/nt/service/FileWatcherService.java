@@ -29,32 +29,41 @@ public class FileWatcherService {
         try {
             this.LOGGER.info("Watcher Started");
 
-            FileUtil.createDirectory();
-            WatchService watcher = FileSystems.getDefault().newWatchService();
-
-            Path directory = Paths.get(FileUtil.getFolderin());
-            directory.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
-
-            while (true) {
-                WatchKey key = watcher.take();
-                Optional<WatchEvent<?>> watchEvent = key.pollEvents().stream().findFirst();
-                Path path = (Path) watchEvent.get().context();
-
-                if (path.toString().endsWith(".dat")) {
-                    this.LOGGER.info("ReadFile Started. FileName: " + path.getFileName());
-                    fileService.processFile(FileUtil.getFolderin() + "/" + path.toString());
-                    this.LOGGER.info("OutputFile Updated");
-                }
-                boolean valid = key.reset();
-                if (!valid) {
-                    this.LOGGER.info("Watcher Stoped");
-                    break;
-                }
-            }
+            WatchService watcher = instanceWatcher();
+            executeWatcher(watcher);
             watcher.close();
         } catch (IOException | InterruptedException e) {
             this.LOGGER.error("Watcher error", e);
             e.printStackTrace();
         }
+    }
+
+    private void executeWatcher(WatchService watcher) throws InterruptedException, IOException {
+        while (true) {
+            WatchKey key = watcher.take();
+            Optional<WatchEvent<?>> watchEvent = key.pollEvents().stream().findFirst();
+            Path path = (Path) watchEvent.get().context();
+
+            if (path.toString().endsWith(".dat")) {
+                this.LOGGER.info("ReadFile Started. FileName: " + path.getFileName());
+                fileService.processFile(FileUtil.getFolderin() + "/" + path.toString());
+                this.LOGGER.info("OutputFile Updated");
+            }
+            boolean valid = key.reset();
+            if (!valid) {
+                this.LOGGER.info("Watcher Stoped");
+                break;
+            }
+        }
+    }
+
+    private WatchService instanceWatcher() throws IOException {
+        FileUtil.createDirectory();
+        WatchService watcher = FileSystems.getDefault().newWatchService();
+
+        Path directory = Paths.get(FileUtil.getFolderin());
+        directory.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
+
+        return watcher;
     }
 }

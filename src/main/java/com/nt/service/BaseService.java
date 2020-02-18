@@ -11,7 +11,6 @@ abstract class BaseService {
 
     private final int SPLITSIZE = 4;
     private final String DELIMITER = "ç";
-    private final Logger LOGGER = LoggerFactory.getLogger(BaseService.class);
 
     public List<String> getDataFromLine(String line) {
         List<String> result = Arrays.asList(line.split(DELIMITER));
@@ -22,36 +21,36 @@ abstract class BaseService {
             return null;
         }
 
-        List<String> newResult = splitFieldWithDelimiterCharacter(result, DELIMITER);
-        if (newResult.size() != SPLITSIZE)
+        List<String> returningData = splitFieldWithDelimiterCharacter(result, DELIMITER);
+        if (returningData.size() != SPLITSIZE)
             return null;
 
-        return newResult;
+        return returningData;
     }
 
     private List<String> splitFieldWithDelimiterCharacter(List<String> result, String delimiter) {
-        List<String> newResult = new ArrayList<>();
-        List<String> temp = new ArrayList<>();
+        List<String> returningData = new ArrayList<>();
+        List<String> comparedData = new ArrayList<>();
 
         for (String split : result) {
             if (isNumeric(split)) {
-                if (!temp.isEmpty()) {
-                    newResult.add(String.join(delimiter, temp));
-                    temp = new ArrayList<>();
+                if (!comparedData.isEmpty()) {
+                    returningData.add(String.join(delimiter, comparedData));
+                    comparedData = new ArrayList<>();
                 }
-                newResult.add(split);
+                returningData.add(split);
             } else {
-                if (Character.isUpperCase(split.charAt(0)) && !temp.isEmpty()) {
-                    newResult.add(String.join(delimiter, temp));
-                    temp = new ArrayList<>();
+                if (Character.isUpperCase(split.charAt(0)) && !comparedData.isEmpty()) {
+                    returningData.add(String.join(delimiter, comparedData));
+                    comparedData = new ArrayList<>();
                 }
-                temp.add(split);
+                comparedData.add(split);
             }
         }
-        if (!temp.isEmpty())
-            newResult.add(String.join(delimiter, temp));
+        if (!comparedData.isEmpty())
+            returningData.add(String.join(delimiter, comparedData));
 
-        return newResult;
+        return returningData;
     }
 
     private boolean isNumeric(String value) {

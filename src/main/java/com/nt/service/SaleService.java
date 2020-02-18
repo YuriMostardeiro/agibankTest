@@ -34,7 +34,7 @@ public class SaleService extends BaseService {
         try {
             salesprice = sale.getSalesTotalPrice(data.get(2));
         } catch (Exception e) {
-            LOGGER.error("Error when try to get sale total price.", e);
+            LOGGER.error("Error to get sale total price.", e);
             return null;
         }
 
