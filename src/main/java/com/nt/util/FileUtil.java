@@ -22,7 +22,7 @@ public class FileUtil {
         createIfNotExists(FOLDEROUT);
     }
 
-    public static String getFolderin() {
+    public static String getFolderIn() {
         return FOLDERIN;
     }
 

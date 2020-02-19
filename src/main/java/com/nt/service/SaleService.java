@@ -40,9 +40,9 @@ public class SaleService extends BaseService {
     }
 
     private double getCalculatedSalePrice(Sale sale, List<String> data) {
-        double salesprice = 0;
-        salesprice = sale.getSalesTotalPrice(data.get(2));
-        return salesprice;
+        double salesPrice = 0;
+        salesPrice = sale.getSalesTotalPrice(data.get(2));
+        return salesPrice;
     }
 
     private void addSaleToList(DataInput dataInput, Sale sale) {

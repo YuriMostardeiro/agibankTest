@@ -2,7 +2,6 @@ package com.nt.service;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
@@ -47,13 +46,13 @@ public class FileWatcherService {
     }
 
     private void startWatcherService() throws IOException {
-        Paths.get(FileUtil.getFolderin()).register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+        Paths.get(FileUtil.getFolderIn()).register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
     }
 
     private void executeWatchService() throws InterruptedException {
         WatchKey key;
         while ((key = watchService.take()) != null) {
-            fileService.validateAndProcessInputFile(FileUtil.getFolderin() + "/" + path(key).toString());
+            fileService.validateAndProcessInputFile(FileUtil.getFolderIn() + "/" + path(key).toString());
             key.reset();
         }
     }
