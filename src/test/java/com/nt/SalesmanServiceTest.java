@@ -50,12 +50,4 @@ public class SalesmanServiceTest {
         salesmanService.getSalesmanData(sampleLine, dataInput);
         assertTrue(dataInput.getSalesmanList().isEmpty());
     }
-
-    @Test
-    public void salesmanFailSalaryTest() {
-        DataInput dataInput = new DataInput();
-        String sampleLine = "001ç1234567891234çPedroçfivedollars";
-        salesmanService.getSalesmanData(sampleLine, dataInput);
-        assertTrue(dataInput.getSalesmanList().isEmpty());
-    }
 }
