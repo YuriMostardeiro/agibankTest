@@ -16,10 +16,52 @@ public class SalesmanService extends BaseService {
 
     public void getSalesmanData(String row, DataInput dataInput) {
         List<String> data = getDataFromLine(row);
-        if (!dataVerifier(data)) return;
-        addSalesmanToList(dataInput, data);
+        verifyDataAndAddSalesman(dataInput, data);
     }
 
+    private void verifyDataAndAddSalesman(DataInput dataInput, List<String> data) {
+        if (verifyData(data)) {
+            addSalesmanToList(dataInput, data);
+        }
+    }
+
+    private boolean verifyData(List<String> data) {
+        if (data == null || data.isEmpty()) {
+            LOGGER.error("Error to split row for sale.");
+            return false;
+        }
+        return true;
+    }
+
+    private void addSalesmanToList(DataInput dataInput, List<String> data) {
+        Salesman salesman = setSalesmanData(data);
+        if (salesman != null) {
+            dataInput.getSalesmanList().add(salesman);
+        }
+    }
+
+    private Salesman setSalesmanData(List<String> data){
+
+        Salesman salesman = new Salesman();
+        salesman.setCode(data.get(0));
+        salesman.setCpf(data.get(1));
+        salesman.setName(data.get(2));
+        if (!convertSalary(data, salesman)) return null;
+
+        LOGGER.info(salesman.getResult());
+        return salesman;
+    }
+
+    private boolean convertSalary(List<String> data, Salesman salesman) {
+        try {
+            salesman.setSalary(Double.parseDouble(data.get(3)));
+        } catch (NumberFormatException e) {
+            LOGGER.error("Error when parse salary to double.", e);
+            return false;
+        }
+        return true;
+    }
+/*
     private Salesman setSalesmanData(List<String> data){
 
         Salesman salesman = new Salesman();
@@ -55,5 +97,5 @@ public class SalesmanService extends BaseService {
             return false;
         }
         return true;
-    }
+    }*/
 }

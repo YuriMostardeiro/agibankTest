@@ -5,7 +5,6 @@ import java.util.List;
 import com.nt.domain.DataInput;
 import com.nt.domain.Sale;
 
-import com.nt.domain.Salesman;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,25 @@ public class SaleService extends BaseService {
 
     public void getSaleData(String row, DataInput dataInput) {
         List<String> data = getDataFromLine(row);
-        if (!dataVerifier(data)) return;
-        addSaleToList(dataInput, data);
+        verifyDataAndAddSale(dataInput, data);
+    }
+
+    private void verifyDataAndAddSale(DataInput dataInput, List<String> data) {
+        if (verifyData(data)) {
+            addSaleToList(dataInput, data);
+        }
+    }
+
+    private boolean verifyData(List<String> data) {
+        if (data == null || data.isEmpty()) {
+            LOGGER.error("Error to split row for sale.");
+            return false;
+        }
+        return true;
+    }
+
+    private void addSaleToList(DataInput dataInput, List<String> data) {
+        dataInput.getSaleList().add(setSaleData(data));
     }
 
     private Sale setSaleData(List<String> data) {
@@ -26,31 +42,10 @@ public class SaleService extends BaseService {
 
         sale.setCode(data.get(0));
         sale.setSaleId(data.get(1));
-        sale.setSalePrice(getCalculatedSalePrice(sale, data));
+        sale.setSalePrice(sale.getSalesTotalPrice(data.get(2)));
         sale.setSalesmanName(data.get(3));
 
         LOGGER.info(sale.getResult());
         return sale;
-    }
-
-    private double getCalculatedSalePrice(Sale sale, List<String> data) {
-        double salesPrice = 0;
-        salesPrice = sale.getSalesTotalPrice(data.get(2));
-        return salesPrice;
-    }
-
-    private void addSaleToList(DataInput dataInput, List<String> data) {
-        Sale sale = setSaleData(data);
-        if (sale != null) {
-            dataInput.getSaleList().add(sale);
-        }
-    }
-
-    private boolean dataVerifier(List<String> data) {
-        if (data == null || data.isEmpty()) {
-            LOGGER.error("Error to split row for sale.");
-            return false;
-        }
-        return true;
     }
 }
