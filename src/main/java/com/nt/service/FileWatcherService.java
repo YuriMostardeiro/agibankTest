@@ -21,7 +21,7 @@ public class FileWatcherService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(FileWatcherService.class);
 
-    private WatchService watchService= FileSystems.getDefault().newWatchService();;
+    private WatchService watchService = FileSystems.getDefault().newWatchService();
 
     @Autowired
     private FileService fileService;
@@ -61,7 +61,7 @@ public class FileWatcherService {
         return pollEvents(key).get().context();
     }
 
-    private Optional<WatchEvent<?>> pollEvents(WatchKey key){
+    private Optional<WatchEvent<?>> pollEvents(WatchKey key) {
         return key.pollEvents().stream().findFirst();
     }
 
