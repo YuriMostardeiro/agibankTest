@@ -20,7 +20,17 @@ public class FileService {
 	@Autowired
 	private ProcessService processService;
 
-	public void processFile(String file) throws IOException {
+	public void validateAndProcessInputFile(String file) {
+		if (validateInputFile(file)) {
+			processFile(file);
+		}
+	}
+
+	private boolean validateInputFile(String file) {
+		return file.endsWith(".dat");
+	}
+
+	private void processFile(String file) {
 		DataInput dataInput = new DataInput();
 		readFile(file, dataInput);
 		FileUtil.createOutputFile(processService.getOutputData(dataInput));

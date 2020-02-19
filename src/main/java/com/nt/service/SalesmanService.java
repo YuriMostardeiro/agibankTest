@@ -22,19 +22,30 @@ public class SalesmanService extends BaseService {
             return;
         }
 
+        addSalesmanToList(dataInput, data);
+    }
+
+    private Salesman setSalesmanData(List<String> data){
+
         Salesman salesman = new Salesman();
         salesman.setCode(data.get(0));
         salesman.setCpf(data.get(1));
         salesman.setName(data.get(2));
-
         try {
             salesman.setSalary(Double.parseDouble(data.get(3)));
         } catch (NumberFormatException e) {
             LOGGER.error("Error when parse salary to double.", e);
-            return;
+            return null;
         }
 
-        dataInput.getSalesmanList().add(salesman);
         LOGGER.info(salesman.getResult());
+        return salesman;
+    }
+
+    private void addSalesmanToList(DataInput dataInput, List<String> data) {
+        Salesman salesman = setSalesmanData(data);
+        if (salesman != null) {
+            dataInput.getSalesmanList().add(salesman);
+        }
     }
 }
