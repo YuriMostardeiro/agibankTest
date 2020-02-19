@@ -16,12 +16,7 @@ public class SalesmanService extends BaseService {
 
     public void getSalesmanData(String row, DataInput dataInput) {
         List<String> data = getDataFromLine(row);
-
-        if (data == null || data.isEmpty()) {
-            LOGGER.error("Error when try to split row for salesman.");
-            return;
-        }
-
+        if (!dataVerifier(data)) return;
         addSalesmanToList(dataInput, data);
     }
 
@@ -31,12 +26,7 @@ public class SalesmanService extends BaseService {
         salesman.setCode(data.get(0));
         salesman.setCpf(data.get(1));
         salesman.setName(data.get(2));
-        try {
-            salesman.setSalary(Double.parseDouble(data.get(3)));
-        } catch (NumberFormatException e) {
-            LOGGER.error("Error when parse salary to double.", e);
-            return null;
-        }
+        if (setSalary(data, salesman)) return null;
 
         LOGGER.info(salesman.getResult());
         return salesman;
@@ -47,5 +37,23 @@ public class SalesmanService extends BaseService {
         if (salesman != null) {
             dataInput.getSalesmanList().add(salesman);
         }
+    }
+
+    private boolean setSalary(List<String> data, Salesman salesman) {
+        try {
+            salesman.setSalary(Double.parseDouble(data.get(3)));
+        } catch (NumberFormatException e) {
+            LOGGER.error("Error when parse salary to double.", e);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean dataVerifier(List<String> data) {
+        if (data == null || data.isEmpty()) {
+            LOGGER.error("Error to split row for salesman.");
+            return false;
+        }
+        return true;
     }
 }
