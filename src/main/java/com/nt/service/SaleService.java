@@ -30,22 +30,19 @@ public class SaleService extends BaseService {
     private Sale setSaleData(List<String> data) {
         Sale sale = new Sale();
 
-        double salesprice = 0;
-        try {
-            salesprice = sale.getSalesTotalPrice(data.get(2));
-        } catch (Exception e) {
-            LOGGER.error("Error to get sale total price.", e);
-            return null;
-        }
-
         sale.setCode(data.get(0));
         sale.setSaleId(data.get(1));
-        sale.setSalePrice(salesprice);
+        sale.setSalePrice(getCalculatedSalePrice(sale, data));
         sale.setSalesmanName(data.get(3));
 
         LOGGER.info(sale.getResult());
-
         return sale;
+    }
+
+    private double getCalculatedSalePrice(Sale sale, List<String> data) {
+        double salesprice = 0;
+        salesprice = sale.getSalesTotalPrice(data.get(2));
+        return salesprice;
     }
 
     private void addSaleToList(DataInput dataInput, Sale sale) {

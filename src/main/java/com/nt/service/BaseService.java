@@ -13,44 +13,56 @@ abstract class BaseService {
     private final String DELIMITER = "ç";
 
     public List<String> getDataFromLine(String line) {
-        List<String> result = Arrays.asList(line.split(DELIMITER));
-        if (result.size() == SPLITSIZE) {
-            return result;
-        }
-        else if (result.size() < SPLITSIZE) {
+        List<String> resultLine = Arrays.asList(line.split(DELIMITER));
+        if (resultLine.size() == SPLITSIZE) {
+            return resultLine;
+        } else if (resultLine.size() < SPLITSIZE) {
             return null;
         }
 
-        List<String> returningData = splitFieldWithDelimiterCharacter(result, DELIMITER);
+        List<String> returningData = splitFieldWithDelimiterCharacter(resultLine);
         if (returningData.size() != SPLITSIZE)
             return null;
 
         return returningData;
     }
 
-    private List<String> splitFieldWithDelimiterCharacter(List<String> result, String delimiter) {
+    private List<String> splitFieldWithDelimiterCharacter(List<String> resultLine) {
         List<String> returningData = new ArrayList<>();
         List<String> comparedData = new ArrayList<>();
 
-        for (String split : result) {
-            if (isNumeric(split)) {
+        for (String splitRow : resultLine) {
+            if (isNumeric(splitRow)) {
                 if (!comparedData.isEmpty()) {
-                    returningData.add(String.join(delimiter, comparedData));
+                    addDataToReturningList(comparedData, returningData);
                     comparedData = new ArrayList<>();
                 }
-                returningData.add(split);
+                returningData.add(splitRow);
             } else {
-                if (Character.isUpperCase(split.charAt(0)) && !comparedData.isEmpty()) {
-                    returningData.add(String.join(delimiter, comparedData));
-                    comparedData = new ArrayList<>();
-                }
-                comparedData.add(split);
+                comparedData = characterVerifier(returningData, comparedData, splitRow);
+                addDataToComparedList(splitRow, comparedData);
             }
         }
         if (!comparedData.isEmpty())
-            returningData.add(String.join(delimiter, comparedData));
+            addDataToReturningList(comparedData, returningData);
 
         return returningData;
+    }
+
+    private List<String> characterVerifier(List<String> returningData, List<String> comparedData, String splitRow) {
+        if (Character.isUpperCase(splitRow.charAt(0)) && !comparedData.isEmpty()) {
+            returningData.add(String.join(DELIMITER, comparedData));
+            comparedData = new ArrayList<>();
+        }
+        return comparedData;
+    }
+
+    private void addDataToComparedList(String data, List<String> comparedData) {
+        comparedData.add(data);
+    }
+
+    private void addDataToReturningList( List<String> comparedData, List<String> returningData) {
+        returningData.add(String.join(DELIMITER, comparedData));
     }
 
     private boolean isNumeric(String value) {

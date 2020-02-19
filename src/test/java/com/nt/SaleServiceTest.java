@@ -43,9 +43,10 @@ public class SaleServiceTest {
     @Test
     public void saleFailDelimiterTest() {
         DataInput dataInput = new DataInput();
-        String sampleLine = "003ç10ç[1-10-100ç,2-30-2.50,3-40-3.10]çDiego";
+        String sampleLine = "003ç10ç[1-10-100,ç2-30-2.ç50,3-40-3.10]çDiego";
         saleService.getSaleData(sampleLine, dataInput);
         assertTrue(dataInput.getSaleList().isEmpty());
+
     }
 
     @Test

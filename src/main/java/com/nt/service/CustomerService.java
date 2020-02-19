@@ -16,7 +16,6 @@ public class CustomerService extends BaseService {
 
     public void getCustomerData(String row, DataInput dataInput) {
         List<String> data = getDataFromLine(row);
-
         addCustomerToList(dataInput, data);
     }
 
