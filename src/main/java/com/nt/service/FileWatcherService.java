@@ -41,7 +41,7 @@ public class FileWatcherService {
         }
     }
 
-    private void createDirectory(){
+    private void createDirectory() {
         FileUtil.createDirectory();
     }
 
