@@ -57,7 +57,7 @@ public class FileWatcherService {
         }
     }
 
-    private Object path(WatchKey key){
+    private Object path(WatchKey key) {
         return pollEvents(key).get().context();
     }
 

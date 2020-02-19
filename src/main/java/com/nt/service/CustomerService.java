@@ -16,8 +16,25 @@ public class CustomerService extends BaseService {
 
     public void getCustomerData(String row, DataInput dataInput) {
         List<String> data = getDataFromLine(row);
-        if (!dataVerifier(data)) return;
-        addCustomerToList(dataInput, data);
+        verifyDataAndAddCustomer(dataInput, data);
+    }
+
+    private void verifyDataAndAddCustomer(DataInput dataInput, List<String> data) {
+        if (verifyData(data)) {
+            addCustomerToList(dataInput, data);
+        }
+    }
+
+    private boolean verifyData(List<String> data) {
+        if (data == null || data.isEmpty()) {
+            LOGGER.error("Error to split row for customer.");
+            return false;
+        }
+        return true;
+    }
+
+    private void addCustomerToList(DataInput dataInput, List<String> data) {
+        dataInput.getCustomerList().add(setCustomerData(data));
     }
 
     private Customer setCustomerData(List<String> data)
@@ -30,19 +47,5 @@ public class CustomerService extends BaseService {
         LOGGER.info(customer.getResult());
 
         return customer;
-    }
-
-    private void addCustomerToList(DataInput dataInput, List<String> data) {
-        if (data != null && !data.isEmpty()) {
-            dataInput.getCustomerList().add(setCustomerData(data));
-        }
-    }
-
-    private boolean dataVerifier(List<String> data) {
-        if (data == null || data.isEmpty()) {
-            LOGGER.error("Error to split row for customer.");
-            return false;
-        }
-        return true;
     }
 }

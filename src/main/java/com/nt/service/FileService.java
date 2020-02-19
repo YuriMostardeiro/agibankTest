@@ -33,24 +33,18 @@ public class FileService {
 	private void processFile(String file) {
 		DataInput dataInput = new DataInput();
 		readFile(file, dataInput);
-		FileUtil.createOutputFile(processService.getOutputData(dataInput));
+		createOutputFile(dataInput);
 	}
 
 	private void readFile(String filePath, DataInput dataInput) {
 		FileInputStream inputStream = null;
 		Scanner sc = null;
-
 		try {
 			inputStream = new FileInputStream(filePath);
 			sc = new Scanner(inputStream, "UTF-8");
-
 			while (sc.hasNextLine()) {
 				processService.processRow(sc.nextLine(), dataInput);
 			}
-
-			if (sc .ioException() != null)
-				throw sc.ioException();
-
 		} catch (IOException e) {
 			this.LOGGER.error("File error", e);
 		} finally {
@@ -68,5 +62,9 @@ public class FileService {
 		}
 		if (scanner != null)
 			scanner.close();
+	}
+
+	private void createOutputFile(DataInput dataInput) {
+		FileUtil.createOutputFile(processService.getOutputData(dataInput));
 	}
 }
