@@ -62,7 +62,7 @@ abstract class BaseService {
         returningData.add(String.join(DELIMITER, comparedData));
     }
 
-    private boolean isNumeric(String value) {
+    protected boolean isNumeric(String value) {
         return value.trim().matches("([0-9-.]+)");
     }
 }

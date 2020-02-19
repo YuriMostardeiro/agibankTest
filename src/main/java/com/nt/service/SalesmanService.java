@@ -34,68 +34,17 @@ public class SalesmanService extends BaseService {
     }
 
     private void addSalesmanToList(DataInput dataInput, List<String> data) {
-        Salesman salesman = setSalesmanData(data);
-        if (salesman != null) {
-            dataInput.getSalesmanList().add(salesman);
-        }
+        dataInput.getSalesmanList().add(setSalesmanData(data));
     }
 
     private Salesman setSalesmanData(List<String> data){
-
         Salesman salesman = new Salesman();
         salesman.setCode(data.get(0));
         salesman.setCpf(data.get(1));
         salesman.setName(data.get(2));
-        if (!convertSalary(data, salesman)) return null;
+        salesman.setSalary(Double.parseDouble(data.get(3)));
 
         LOGGER.info(salesman.getResult());
         return salesman;
     }
-
-    private boolean convertSalary(List<String> data, Salesman salesman) {
-        try {
-            salesman.setSalary(Double.parseDouble(data.get(3)));
-        } catch (NumberFormatException e) {
-            LOGGER.error("Error when parse salary to double.", e);
-            return false;
-        }
-        return true;
-    }
-/*
-    private Salesman setSalesmanData(List<String> data){
-
-        Salesman salesman = new Salesman();
-        salesman.setCode(data.get(0));
-        salesman.setCpf(data.get(1));
-        salesman.setName(data.get(2));
-        if (setSalary(data, salesman)) return null;
-
-        LOGGER.info(salesman.getResult());
-        return salesman;
-    }
-
-    private void addSalesmanToList(DataInput dataInput, List<String> data) {
-        Salesman salesman = setSalesmanData(data);
-        if (salesman != null) {
-            dataInput.getSalesmanList().add(salesman);
-        }
-    }
-
-    private boolean setSalary(List<String> data, Salesman salesman) {
-        try {
-            salesman.setSalary(Double.parseDouble(data.get(3)));
-        } catch (NumberFormatException e) {
-            LOGGER.error("Error when parse salary to double.", e);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean dataVerifier(List<String> data) {
-        if (data == null || data.isEmpty()) {
-            LOGGER.error("Error to split row for salesman.");
-            return false;
-        }
-        return true;
-    }*/
 }
