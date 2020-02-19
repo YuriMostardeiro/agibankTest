@@ -16,6 +16,7 @@ public class CustomerService extends BaseService {
 
     public void getCustomerData(String row, DataInput dataInput) {
         List<String> data = getDataFromLine(row);
+        if (!dataVerifier(data)) return;
         addCustomerToList(dataInput, data);
     }
 
@@ -35,5 +36,13 @@ public class CustomerService extends BaseService {
         if (data != null && !data.isEmpty()) {
             dataInput.getCustomerList().add(setCustomerData(data));
         }
+    }
+
+    private boolean dataVerifier(List<String> data) {
+        if (data == null || data.isEmpty()) {
+            LOGGER.error("Error to split row for customer.");
+            return false;
+        }
+        return true;
     }
 }

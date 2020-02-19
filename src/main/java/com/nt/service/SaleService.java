@@ -5,6 +5,7 @@ import java.util.List;
 import com.nt.domain.DataInput;
 import com.nt.domain.Sale;
 
+import com.nt.domain.Salesman;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,8 @@ public class SaleService extends BaseService {
 
     public void getSaleData(String row, DataInput dataInput) {
         List<String> data = getDataFromLine(row);
-
-        if (data == null || data.isEmpty()) {
-            LOGGER.error("Error when try to split row for sale.");
-            return;
-        }
-
-        Sale sale = setSaleData(data);
-
-        addSaleToList(dataInput, sale);
+        if (!dataVerifier(data)) return;
+        addSaleToList(dataInput, data);
     }
 
     private Sale setSaleData(List<String> data) {
@@ -45,9 +39,18 @@ public class SaleService extends BaseService {
         return salesPrice;
     }
 
-    private void addSaleToList(DataInput dataInput, Sale sale) {
+    private void addSaleToList(DataInput dataInput, List<String> data) {
+        Sale sale = setSaleData(data);
         if (sale != null) {
             dataInput.getSaleList().add(sale);
         }
+    }
+
+    private boolean dataVerifier(List<String> data) {
+        if (data == null || data.isEmpty()) {
+            LOGGER.error("Error to split row for sale.");
+            return false;
+        }
+        return true;
     }
 }
